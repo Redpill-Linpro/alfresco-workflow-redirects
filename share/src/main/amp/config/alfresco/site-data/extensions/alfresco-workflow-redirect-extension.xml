@@ -1,0 +1,15 @@
+<extension>
+  <modules>
+    <module>
+      <id>Workflow Redirects</id>
+      <auto-deploy>false</auto-deploy>
+      <version>${noSnapshotVersion}</version>      
+      <customizations>
+        <customization>
+          <targetPackageRoot>org.alfresco</targetPackageRoot>
+          <sourcePackageRoot>org.redpill.alfresco.workflowredirect</sourcePackageRoot>
+        </customization>
+      </customizations>
+    </module>
+  </modules>
+</extension>
