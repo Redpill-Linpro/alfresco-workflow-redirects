@@ -20,7 +20,7 @@
 
   <properties>
     <alfresco.groupId>org.alfresco</alfresco.groupId>
-    <alfresco.version>4.2.1</alfresco.version>
+    <alfresco.version>4.2.f</alfresco.version>
   </properties>
 
   <modules>
