@@ -95,7 +95,9 @@
    */
   Alfresco.forms.Form.prototype._submitInvoked = function(event) {
     // Redirect the successcallback to a custom function
-    redirectCallback = this.ajaxSubmitHandlers.successCallback;
+    if (redirectCallback===undefined || redirectCallback === null) {
+      redirectCallback = this.ajaxSubmitHandlers.successCallback;
+    }
 
     this.ajaxSubmitHandlers.successCallback = {
       fn : _newSuccessCallback,
