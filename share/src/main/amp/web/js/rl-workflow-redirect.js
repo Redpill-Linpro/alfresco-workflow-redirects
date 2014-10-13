@@ -1,5 +1,3 @@
-
-
 /**
  * Extension of forms-runtime with automatic redirect to the next workflowtask if one was
  * created and it is assigned to the current user. When no more tasks are available, the user will be redirected to its original start page.
@@ -27,15 +25,19 @@
   _workflowDetailsSuccessCallback = function(response, obj) {
     ////console.log("custom _workflowDetailsSuccessCallback begin");    
     var queryParamRedir = _queryParam("redirect");
+    var oldTaskId = _queryParam("taskId");
     if (queryParamRedir == null || queryParamRedir.length == 0) {
       queryParamRedir = encodeURIComponent(document.referrer); 
     }
     if (response.json.data.length>0) {
       var task = response.json.data[0];
-      
-      if (Alfresco.constants.USERNAME == task.owner.userName && task.state!="COMPLETED") {
-        var taskId = task.id;
-        
+      var taskId = task.id;
+
+      //Only redirect if:
+      //1. Task state is not completed
+      //2. The current user owns the task
+      //3. The target task is not the same as the current one (in case of a save action)
+      if (Alfresco.constants.USERNAME == task.owner.userName && task.state!="COMPLETED" && oldTaskId != taskId) {
         var redirectURL = Alfresco.constants.URL_PAGECONTEXT + "task-edit?taskId="+ taskId +"&redirect="+queryParamRedir;
         redirectCallback.scope.options.submitUrl = redirectURL;
       }

@@ -13,7 +13,7 @@
 
   <groupId>org.redpill-linpro.alfresco</groupId>
   <artifactId>alfresco-workflow-redirect</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <name>Alfresco Workflow Redirects</name>
   <description>This All-in-One project allows to manage all the components involved in Alfresco development (repo and share) in one project</description>
   <packaging>pom</packaging>
@@ -24,7 +24,6 @@
   </properties>
 
   <modules>
-<!--    <module>repo</module>-->
     <module>share</module>
   </modules>
 
