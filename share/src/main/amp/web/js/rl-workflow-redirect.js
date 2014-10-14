@@ -1,3 +1,5 @@
+
+
 /**
  * Extension of forms-runtime with automatic redirect to the next workflowtask if one was
  * created and it is assigned to the current user. When no more tasks are available, the user will be redirected to its original start page.
@@ -22,7 +24,7 @@
   /**
    * Callback after workflow task details have been queried, when done, this will call the original callback.
    */
-  _workflowDetailsSuccessCallback = function(response, obj) {
+  var _workflowDetailsSuccessCallback = function(response, obj) {
     ////console.log("custom _workflowDetailsSuccessCallback begin");    
     var queryParamRedir = _queryParam("redirect");
     var oldTaskId = _queryParam("taskId");
@@ -49,13 +51,13 @@
       redirectCallback.scope.options.submitUrl = decodeURIComponent(queryParamRedir);
     }
     redirectCallback.fn.call(redirectCallback.scope, obj.response);
-  }
+  };
   
   /**
    * New callback function which is called after the submit button is pressed in a workflow form.
    * This function will query alfresco for the next workflow task.
    */
-  _newSuccessCallback = function(response) {
+  var _newSuccessCallback = function(response) {
     var persistedObject = response.json.persistedObject;
     persistedObject = persistedObject.substr(persistedObject.indexOf("WorkflowInstance"));
     var startIndex = persistedObject.indexOf("id=activiti$")+3;
@@ -72,25 +74,7 @@
       scope : this,
       execScripts : false
     });
-
-  }
-
-   _newFailureCallback = function (response) {
-    var failureMsg = null;
-    if (response.json && response.json.message && response.json.message.indexOf("Failed to persist field 'prop_cm_name'") !== -1)
-    {
-      failureMsg = this.msg("message.details.failure.name");
-    }
-    if (response.json && response.json.message && response.json.message.indexOf("org.alfresco.error.AlfrescoRuntimeException") !== -1) {
-      var classNameindex = response.json.message.indexOf(": ")+11;
-      response.json.message = response.json.message.substr(classNameindex);
-    }
-    Alfresco.util.PopupManager.displayPrompt(
-    {
-      title: this.msg(this.options.failureMessageKey),
-      text: failureMsg ? failureMsg : (response.json && response.json.message ? response.json.message : this.msg("message.details.failure"))
-    });
-  }
+  };
 
   /**
    * Override of the _submitInvoked function for forms. Will redirect submits to a new callback function.
@@ -105,13 +89,6 @@
       fn : _newSuccessCallback,
       obj : null,
       scope : this
-    };
-
-    //Replace exceptions part of failure messages.
-    this.ajaxSubmitHandlers.failureCallback = {
-      fn : _newFailureCallback,
-      obj : null,
-      scope : this.ajaxSubmitHandlers.failureCallback.scope
     };
 
     _submitInvoked.call(this, event);
